@@ -15,7 +15,7 @@ const resolvers = {
   },
   
   Mutation:{
-    deletePost(parent, args, { pubsub }){
+    deletePost(parent, args){
       const id = parseInt(args.id, 10);
       const isPostExists = posts.findIndex((post)=> post.id === id);
       if(isPostExists === -1) {
@@ -25,33 +25,23 @@ const resolvers = {
       const [post] = posts.splice(isPostExists, 1);
       // return post;
       
-      pubsub.publish('post', {
-        post:{
-            mutation: 'DELETED',
-            data: post
-        }
-      })
+
       return post;
     },
     
-    createPost(parent, args, { pubsub }) {
+    createPost(parent, args) {
       const id = parseInt(args.id, 10);
       const postIndex = posts.findIndex((post)=> post.id === id);
       if(postIndex === -1) {
         posts.push({
           ...args
         })
-        pubsub.publish('post', {
-          post:{
-              mutation: 'CREATED',
-              data: {...args}
-          }
-        }); 
+
         return {...args};
       };
       throw new Error('Post with same id already exist!');
     },
-    updatePost(parent, args, { pubsub }){
+    updatePost(parent, args){
       const id = parseInt(args.id, 10);
       const postIndex = posts.findIndex((post)=> post.id === id);
       if (postIndex !== -1) {
@@ -62,23 +52,11 @@ const resolvers = {
         };
         posts.splice(postIndex, 1, updatedPost);
 
-        pubsub.publish('post', {
-          post:{
-              mutation: 'UPDATED',
-              data: updatedPost
-          }
-        });
+
         return updatedPost;
       }
       throw new Error('Post does not exist!');
     },
-  },
-  Subscription:{
-    post:{
-      subscribe(parent, args, {pubsub}){
-        return pubsub.asyncIterator('post');
-      }
-    }
   },
 }
 

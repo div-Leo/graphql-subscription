@@ -41,14 +41,6 @@ const typeDefs = `
           commentCount: Int!
         ): Post!
     }
-    type Subscription {
-        post: PostSubscriptionPayload!
-    }
-    
-    type PostSubscriptionPayload {
-        mutation: String!
-        data: Post!
-    }
 `;
 
 module.exports = typeDefs;
