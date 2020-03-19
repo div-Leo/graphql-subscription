@@ -1,4 +1,4 @@
-const { GraphQLServer, PubSub } = require("graphql-yoga");
+const { GraphQLServer, PubSub } = require("apollo-server");
 const typeDefs = require("./typeDefs");
 const resolvers = require("./resolvers");
 const pubsub = new PubSub();
@@ -11,12 +11,6 @@ const server = new GraphQLServer({
   }
 });
 
-const options = {
-  port: process.env.PORT || 4000
-};
-
-server.start(options, ({ port }) => {
-  console.log(
-    `Graphql Server started, listening on port ${port} for incoming requests.`
-  );
+server.listen({ port: process.env.PORT || 4000 }).then(({ url }) => {
+  console.log(`🚀 Server ready at ${url}`);
 });

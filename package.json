@@ -7,7 +7,8 @@
     "start": "nodemon src/index.js localhost 8080"
   },
   "dependencies": {
-    "graphql-yoga": "1.18.3"
+    "apollo-server": "^2.11.0",
+    "graphql": "^14.6.0"
   },
   "devDependencies": {
     "nodemon": "1.18.4"
